@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Switch, Route,  } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Proba from "./sajatosztalyok/Proba";
+import Emlek from "./sajatosztalyok/Emlek"
+import Adat_torles from "./sajatosztalyok/Adat_torles";
+import Kulso from "./sajatosztalyok/Kulso";
+import En from "./sajatosztalyok/en_szerkesztes";
 
 import AuthService from "./services/auth.service";
 
@@ -42,75 +48,62 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser,  showAdminBoard } = this.state;
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
-            bezKoder
-          </Link>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Brand href="#home">
+        Én könyv
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+        <Nav.Link href="/En">Én</Nav.Link>
+          <Nav.Link href="/Kulso" >Külső tulajdonságok</Nav.Link>
+          <Nav.Link href="/Emlek">Emlékek</Nav.Link>
+          {showAdminBoard && (
+          <NavDropdown title="Admin" id="collasible-nav-dropdown">
+            <NavDropdown.Item href="/Adat_torles">Emélkek törlése</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+         )}
+        </Nav>
 
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
+        {currentUser ? (
 
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin oldal
-                </Link>
-              </li>
-            )}
+        <Nav>
+          <Nav.Link
+           href="/profile">
+             {currentUser.username}
+           </Nav.Link>
 
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>
-            )}
-          </div>
+          <Nav.Link eventKey={2} href="/login" onClick={this.logOut}>
+            Kijelentkezés
+          </Nav.Link>
+        </Nav>
+        ) : (
+          <Nav>
+          <Nav.Link
+           href="/login">
+             Bejelenzkezés
+           </Nav.Link>
 
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
+          <Nav.Link eventKey={2} href="/register">
+            Regisztráció
+          </Nav.Link>
+        </Nav>
+        )}
+      </Navbar.Collapse>
+    </Navbar>
 
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
-            </div>
-          )}
-        </nav>
 
         <div className="container mt-3">
           <Switch>
@@ -121,6 +114,12 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
+            <Route path="/Proba" component={Proba} />
+            <Route path="/Emlek" component={Emlek} />
+            <Route path="/Adat_torles" component={Adat_torles} />
+            <Route path="/Kulso" component={Kulso} />
+            <Route path="/En" component={En} />
+
           </Switch>
         </div>
       </div>
