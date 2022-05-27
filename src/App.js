@@ -6,7 +6,6 @@ import "./App.css";
 import Proba from "./sajatosztalyok/Proba";
 import Emlek from "./sajatosztalyok/Emlek"
 import Adat_torles from "./sajatosztalyok/Adat_torles";
-import Kulso from "./sajatosztalyok/Kulso";
 import En from "./sajatosztalyok/en_szerkesztes";
 
 import AuthService from "./services/auth.service";
@@ -60,11 +59,10 @@ class App extends Component {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
         <Nav.Link href="/En">Én</Nav.Link>
-          <Nav.Link href="/Kulso" >Külső tulajdonságok</Nav.Link>
           <Nav.Link href="/Emlek">Emlékek</Nav.Link>
           {showAdminBoard && (
           <NavDropdown title="Admin" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/Adat_torles">Emélkek törlése</NavDropdown.Item>
+            <NavDropdown.Item href="/Adat_torles">Emlékek törlése</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
               Another action
             </NavDropdown.Item>
@@ -117,7 +115,6 @@ class App extends Component {
             <Route path="/Proba" component={Proba} />
             <Route path="/Emlek" component={Emlek} />
             <Route path="/Adat_torles" component={Adat_torles} />
-            <Route path="/Kulso" component={Kulso} />
             <Route path="/En" component={En} />
 
           </Switch>

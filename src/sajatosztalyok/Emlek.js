@@ -2,19 +2,17 @@ import React, { Component} from 'react';
 import { Text, TextInput, View, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native-web';
 import FileUpload from "./upload";
 import * as Speech from 'expo-speech';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 var ip = "localhost";
 
 export default class Emlek extends Component {
   constructor(props) {
     super(props);
-    let dt=new Date();
-    let teljesdat=dt.getFullYear()+"/"+(dt.getMonth()+1)+"/"+(dt.getDate());
     this.state = {
-
         komment:"",
-        datum:teljesdat,
-        date:dt,
+        date:new Date(),
         show:false,
         dataSource:[],
         isLoading: true,
@@ -159,13 +157,10 @@ export default class Emlek extends Component {
         </View>
 {/*-------------------------------------------dátum--------------------------------------------------------------------------------------- */}
       <View style={styles.datum_kon}>
-        <TextInput
-         placeholderTextColor="white"
-          style={{color:"white",backgroundColor:"#ecb920",padding:10,borderRadius:10,height:50,width:100,textAlignVertical:"center", textAlign:"center", marginTop:5, marginBottom:5}}
-          placeholder="Írd be a dátumot!"
-          onChangeText={(datum) => this.setState({datum})}
-          value={this.state.datum}
-        />
+      <DatePicker 
+        selected={this.state.date} 
+        onChange={(newdate) => this.setState({date:newdate})}
+         />
       </View>
 {/*---------------------------------------------------------------------------------Kép-------------------------------------------------- */} 
 <View style={{alignItems:"center"}}>
@@ -284,7 +279,8 @@ const styles = StyleSheet.create({
   },
 
   datum_kon:{
-    marginTop:"10"
+    marginTop:"10",
+    marginBottom:250
   },
 
   torles_gomb:{

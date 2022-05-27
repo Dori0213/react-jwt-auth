@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, FlatList, ActivityIndicator, Text, View, Image , TouchableOpacity } from 'react-native';
+import {StyleSheet, ActivityIndicator, Text, View, Image , TouchableOpacity } from 'react-native';
 
 var ip = "localhost";
 
@@ -39,8 +39,14 @@ export default class Adat_torles extends React.Component {
           isLoading: false,
           dataSource: responseJson,
         }, function(){
-
-        });
+          var seged=this.state.dataSource
+          for( var item of seged)
+          {
+            var kecske=item.datum.split("T")
+            item.datum=kecske[0]
+          }
+          this.setState({dataSource:seged})
+         });
 
       })
       .catch((error) =>{
@@ -88,28 +94,26 @@ export default class Adat_torles extends React.Component {
     }
 
     return(
-      <View style={{flex: 1, paddingTop:20}}>
-        <FlatList
-          data={this.state.dataSource}
-          renderItem={({item}) => 
+      <View style={{padding:10, marginLeft:20, marginRight:20, alignItems:"center", flexDirection:'row', flexWrap:"wrap"}}>
+        {this.state.dataSource.map((item) => {
 
-          <View >
-          <Text style={{color:"brown",fontSize:20,textAlign:"center",marginTop:15,marginBottom:5}}>{item.szoveg}</Text>
-          <Image  source={{uri: 'http://'+ip+':8080/'+item.kep}} style={{width:300,height:300,marginLeft:"auto",marginRight:"auto"}} />  
-          <TouchableOpacity
-        style={styles.kekgomb}
-        onPress={async ()=>this.torles(item.gyerekkori_id)}
-      >
-        <Text style={{color:"white",fontWeight:"bold",fontSize:15}}>Törlés</Text>
-      </TouchableOpacity>
+return (
+            <View style={{borderWidth:1,borderRadius:10,padding:10,width:330, marginLeft:13,paddingLeft:15,backgroundColor:"#055169", marginBottom:10 }}>
+              <Text style={{fontSize:20,padding:3,color:"white", alignItems:"center", fontFamily:"italic"}}>{item.datum} </Text>
+              <Text style={{fontStyle:"italic",fontSize:15,padding:3, color:"white", alignItems:"center", height:50, fontFamily:"italic"}}>{item.szoveg} </Text>
+              <Image  source={{uri: 'http://'+ip+':8080/'+item.kep}} style={{width:300,height:300}} /> 
+
+              <TouchableOpacity
+                style={styles.torles_gomb}
+                onPress={async ()=> this.torles(item.gyerekkori_id)}
+              >
+                <Text style={styles.torles_gomb_felirat}>Törlés</Text>
+              </TouchableOpacity>
+            </View>
+            
+)
+        })}
           </View>
-        
-        }
-
-        
-          keyExtractor={({gyerekkori_id}, index) => gyerekkori_id}
-        />
-      </View>
     );
   }
 }
@@ -123,5 +127,19 @@ const styles = StyleSheet.create({
     width:300,
     marginLeft:"auto",
     marginRight:"auto",
-  }
+  },
+  torles_gomb:{
+    alignSelf: "center", 
+    textAlign:"center",
+    backgroundColor:"#ecb920",
+    padding:10,
+    borderRadius:10,
+    width:150,
+    marginTop:15
+  },
+
+  torles_gomb_felirat:{
+    textAlign:"center",
+    color:"#52633a"
+  },
 });

@@ -1,84 +1,105 @@
-import React, { useState } from "react";
-import { View, Picker, StyleSheet, Text, TouchableOpacity, } from "react-native-web";
+import React, { Component} from 'react';
+import NumericInput from "react-native-numeric-input";
+import { Text, View,  StyleSheet, TouchableOpacity, Picker} from 'react-native';
 
-const App = () => {
-  const [selectedValue, setSelectedValue] = useState("Válaszd ki a hajad színét!");
-  const [selectedValue1, setSelectedValue1] = useState("Válaszd ki a hajad színét!");  
+export default class Kulso extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            szem:"",
+            haj:"",
+            magassag:"",
+            suly:"",
+            value:null
+        }
+    }
 
-  return (
-    <View style={styles.container}>
-        <View style={styles.haj}>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
-                <Picker.Item label="Szőke" value="Szőke"/>
-                <Picker.Item label="Vörös" value="Vörös"/>
-                <Picker.Item label="Világosbarna" value="Világosbarna"/>
-                <Picker.Item label="Sötétbarna" value="Sötétbarna"/>
-                <Picker.Item label="Fekete" value="Fekete"/>
-                <Picker.Item label="Ősz" value="Ősz"/>
-            </Picker>
-      </View>
-
-        <View style={styles.szem}>
-            <Picker
-                selectedValue={selectedValue1}
-                style={{ height: 50, width: 150, }}
-                onValueChange={(itemValue1, itemIndex) => setSelectedValue1(itemValue1)}>
-                <Picker.Item label="Kék" value="Kék"/>
-                <Picker.Item label="Zöld" value="Zöld"/>
-                <Picker.Item label="Világosbarna" value="Világosbarna"/>
-                <Picker.Item label="Sötétbarna" value="Sötétbarna"/>
-                <Picker.Item label="Fekete" value="Fekete"/>
-            </Picker>
-        </View>
-        <View>
-          {/*<TextInput
-              placeholderTextColor="white"
-              style={styles.magassag}
-              placeholder="Milyen magas vagy?"
-              onChangeText={(magassag) => this.setState({magassag})}
-              value={this.state.magassag}
-          />*/}
-        </View>
-        <TouchableOpacity 
-            style={styles.gomb}
-            onPress={()=> this.mentes()}>
-            <Text style={styles.felirat}>Mentés</Text>
-        </TouchableOpacity>
-    </View>
-
-  );
+    render() {
+        return (
+            <View style={styles.container}>
+                <Picker
+                  selectedValue={this.state.haj}
+                  onValueChange={(hajvalaszt, itemIndex) => this.setState({haj:hajvalaszt})}
+                  style={styles.valaszto1}
+                >
+                  <Picker.Item label="Szőke" value="szoke"/>
+                  <Picker.Item label="Vörös" value="voros"/>
+                  <Picker.Item label="Világosbarna" value="vilagosbarna"/>
+                  <Picker.Item label="Sötétbarna" value="sotetbarna"/>
+                  <Picker.Item label="Fekete" value="fekete"/>
+                </Picker>
+                <Picker
+                  selectedValue={this.state.szem}
+                  onValueChange={(szemvalaszt, itemIndex) => this.setState({szem:szemvalaszt})}
+                  style={styles.valaszto2}
+                >
+                  <Picker.Item label="Kék" value="kek"/>
+                  <Picker.Item label="Zöld" value="zold"/>
+                  <Picker.Item label="Világosbarna" value="vilagosbarna"/>
+                  <Picker.Item label="Sötétbarna" value="sotetbarna"/>
+                  <Picker.Item label="Fekete" value="fekete"/>
+                </Picker>
+                <NumericInput onChange={value => console.log(value)}/>
+                <TouchableOpacity 
+                    style={styles.gomb}
+                    onPress={()=> this.mentes()}>
+                    <Text style={styles.felirat}>Mentés</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 40,
-    alignItems: "center"
-  },
-
-  haj: {
-    marginBottom:10,
-  },
-
-  szem:{
-      marginTop:10,
-  },
-  gomb:{
-    width:150,
-    backgroundColor:"#017f8d",
-    margin:5,
-    borderRadius:10,
-    alignItems:"center",
-},
-
-felirat:{
-  textAlign:"center",
-  padding:10,
-  color:"#e4e5e0"
-}
-});
-
-export default App;
+    container:{
+        alignItems:"center",
+        margin:5,
+        marginBottom:15
+    },
+    valaszto1:{
+        borderRadius:10,
+        padding:5,
+        justifyContent:'space-around',
+        margin:5,
+        width:200,
+    },
+    valaszto2:{
+        margin:5,
+        justifyContent:'space-around',
+        padding:5,
+        borderRadius:10,
+        width:200
+    },
+    magassag:{
+        color:"white",
+        backgroundColor:"#ecb920",
+        padding:5,
+        borderRadius:10,
+        textAlign:'center',
+        justifyContent:'space-around',
+        margin:5,
+        width:200
+    },
+    suly:{
+        color:"white",
+        backgroundColor:"#ecb920",
+        padding:5,
+        borderRadius:10,
+        textAlign:'center',
+        margin:5,
+        justifyContent:'space-around',
+        width:200
+    },
+    gomb:{
+        width:200,
+        backgroundColor:"#017f8d",
+        margin:5,
+        borderRadius:10,
+        alignItems:"center"
+    },
+    felirat:{
+        textAlign:"center",
+        padding:10,
+        color:"#e4e5e0"
+    }
+})
